@@ -7,6 +7,7 @@
           hint=""
           rows="10"
           :disabled="disabled"
+          :background-color="color"
         ></v-textarea>
     </v-container>
 </template>
@@ -18,10 +19,11 @@ export default {
         return {
         }
     },
-    props: [
-        'label',
-        'disabled'
-    ]
+    props: {
+        label: String,
+        disabled: Boolean,
+        color: String
+    }
 }
 </script>
 

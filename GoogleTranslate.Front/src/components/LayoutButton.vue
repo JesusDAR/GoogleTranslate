@@ -1,5 +1,5 @@
 <template>
-    <v-btn class="mx-2" large>{{ text }}</v-btn>
+    <v-btn class="mx-2" :color="color" :disabled="disabled" large>{{ text }}</v-btn>
 </template>
 
 <script>
@@ -9,10 +9,11 @@ export default {
         return {
         }
     },
-    props: [
-        'text'
-    ]
-    
+    props: {
+        text: String,
+        color: String,
+        disabled: Boolean
+    },
 }
 </script>
 
