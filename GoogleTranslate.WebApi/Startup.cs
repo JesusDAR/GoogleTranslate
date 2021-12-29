@@ -30,11 +30,20 @@ namespace GoogleTranslate.WebApi
         {
 
             services.AddControllers();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader());
+            });
             services.RegisterServices();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "GoogleTranslate.WebApi", Version = "v1" });
             });
+            //services.AddCors();
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,17 +55,19 @@ namespace GoogleTranslate.WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GoogleTranslate.WebApi v1"));
             }
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            //app.UseCors(
+            //     options => options.WithOrigins("http://localhost:8080").AllowAnyMethod()
+            //);
         }
     }
     public static class ServiceExtensions

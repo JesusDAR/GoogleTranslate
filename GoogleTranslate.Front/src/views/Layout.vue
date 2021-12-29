@@ -16,15 +16,15 @@
           </v-row>
           <v-row>
             <v-col cols="6">
-              <layout-text-area label="Source" outlined />
+              <layout-text-area :text="getTextTgt" @input="setSrcText" label="Source" outlined />
             </v-col>
             <v-col cols="6">
-              <layout-text-area label="Target" color="grey lighten-5" filled disabled/>
+              <layout-text-area :text="getTextTgt" label="Target" color="grey lighten-5" filled disabled/>
             </v-col>
           </v-row>
           <v-row class="text-center">
             <v-col cols="12">
-              <layout-button @click="translate" color="primary" :text="btnText" :disabled="$store.state.src === '' || $store.state.tgt === ''"/>
+              <layout-button @click.native="translate" color="primary" :text="btnText" :disabled="$store.state.src === '' || $store.state.tgt === ''"/>
             </v-col>
           </v-row>
         </v-col>
@@ -47,34 +47,49 @@
         en: 'en',
         fr: 'fr',
         de: 'de',
-        translateText: ["Translate","Traduire","Übersetzen"],
+        srcText: '',
+        tgtText: '',
+        btnTextArray: ["Translate","Traduire","Übersetzen"]
       }
     },
     created() {
       this.btnText
     },
+    // computed: {
+    //   btnText: {
+    //     get() { return this.$store.state.btnText },
+    //     set() { 
+    //       if(this.$store.state.tgt === this.en) { this.$store.commit('updateBtnText', this.translateText[0]) }
+    //       if(this.$store.state.tgt === this.fr) { this.$store.commit('updateBtnText', this.translateText[1]) }
+    //       if(this.$store.state.tgt === this.de) { this.$store.commit('updateBtnText', this.translateText[2]) }
+    //       }
+    //   }
+    // },
     computed: {
-      btnText: function() {
-        console.log(this.$store.state.tgt)
-        if(this.$store.state.tgt === this.en) { return this.translateText[0]}
-        if(this.$store.state.tgt === this.fr) { return this.translateText[1]}
-        if(this.$store.state.tgt === this.de) { return this.translateText[2]}
-        return this.translateText[0]
+      btnText() {
+        if(this.$store.state.tgt === this.en) { return this.btnTextArray[0]}
+        if(this.$store.state.tgt === this.fr) { return this.btnTextArray[1]}
+        if(this.$store.state.tgt === this.de) { return this.btnTextArray[2]}
+        return this.btnTextArray[0]
+      },
+      getTextTgt() {
+        console.log(this.$store.state.textTgt)
+        return this.$store.state.textTgt
       }
     },
     methods: {
-      translate(){
-        console.log("translate")
+      translate() {
+        this.$store.dispatch('translate')
       },
       setSrc(src) {
-        // console.log("Hola")
         this.$store.commit('setSrc',src)
-        // console.log(this.$store.state.src)
       },
       setTgt(tgt) {
         this.$store.commit('setTgt',tgt)
-        // console.log(this.$store.state.tgt)
-      },      
+      },
+      setSrcText(text){
+        this.$store.commit('setSrcText',text)
+      }
     }
   }
 </script>

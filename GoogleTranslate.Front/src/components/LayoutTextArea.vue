@@ -6,6 +6,8 @@
           value=""
           hint=""
           rows="10"
+          @input="emitToParent($event)"
+          v-model="text"
           :disabled="disabled"
           :background-color="color"
         ></v-textarea>
@@ -17,12 +19,24 @@ export default {
     name: "LayoutTextArea",
     data() {
         return {
+            text : ''
         }
     },
     props: {
+        // text: String,
         label: String,
         disabled: Boolean,
         color: String
+    },
+    // computed: {
+    //     text() {
+    //         this.$emit('childToParent', this.text)
+    //     }
+    // }
+    methods: {
+        emitToParent (event) {
+            this.$emit('input', this.text)
+        }
     }
 }
 </script>

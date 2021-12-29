@@ -1,5 +1,6 @@
 ﻿using GoogleTranslate.WebApi.DTOs;
 using GoogleTranslate.WebApi.Services.Interfaces;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +11,8 @@ using System.Threading.Tasks;
 namespace GoogleTranslate.WebApi.Controllers
 {
     [ApiController]
-    [Route("/translate")]
+    [Route("api/[controller]")]
+    [EnableCors("CorsPolicy")]
     public class TranslationController : ControllerBase
     {
         private readonly ITranslationServices _translationServices;
