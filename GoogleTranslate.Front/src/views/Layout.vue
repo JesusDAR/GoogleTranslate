@@ -16,7 +16,7 @@
           </v-row>
           <v-row>
             <v-col cols="6">
-              <layout-text-area :text="getTextTgt" @input="setSrcText" label="Source" outlined />
+              <layout-text-area :text="getTextSrc" @input="setSrcText" label="Source" outlined />
             </v-col>
             <v-col cols="6">
               <layout-text-area :text="getTextTgt" label="Target" color="grey lighten-5" filled disabled/>
@@ -72,6 +72,10 @@
         if(this.$store.state.tgt === this.de) { return this.btnTextArray[2]}
         return this.btnTextArray[0]
       },
+      getTextSrc() {
+        console.log(this.$store.state.textSrc)
+        return this.$store.state.textSrc
+      },      
       getTextTgt() {
         console.log(this.$store.state.textTgt)
         return this.$store.state.textTgt

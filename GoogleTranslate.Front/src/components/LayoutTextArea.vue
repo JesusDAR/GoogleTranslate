@@ -3,7 +3,6 @@
           <v-textarea
           outlined
           :label="label"
-          value=""
           hint=""
           rows="10"
           @input="emitToParent($event)"
@@ -23,7 +22,7 @@ export default {
         }
     },
     props: {
-        // text: String,
+        text: String,
         label: String,
         disabled: Boolean,
         color: String
