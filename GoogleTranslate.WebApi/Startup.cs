@@ -37,6 +37,7 @@ namespace GoogleTranslate.WebApi
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
+
             services.RegisterServices();
             services.AddSwaggerGen(c =>
             {
