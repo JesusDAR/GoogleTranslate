@@ -14,24 +14,20 @@ namespace GoogleTranslate.WebApi.Services
     {
         public async Task<TranslationResponseDTO> Translate(TranslationRequestDTO translationRequestDTO)
         {
-
-            string url = "https://translate.google." + translationRequestDTO.Source + "/_/TranslateWebserverUi/data/batchexecute";;
-
             List<List<object>> parameter = new List<List<object>> { new List<object> { translationRequestDTO.Text, translationRequestDTO.Source, translationRequestDTO.Target, true }, new List<object> { 1 } };
-             string escaped_parameter = JsonSerializer.Serialize(parameter);
+            string escaped_parameter = JsonSerializer.Serialize(parameter);
 
             List<List<List<string>>> rpc = new List<List<List<string>>> { new List<List<string>> { new List<string> { "MkEWBc", escaped_parameter, null, "generic" } } };
             string espaced_rpc = JsonSerializer.Serialize(rpc);
             string encoded = Uri.EscapeDataString(espaced_rpc);
             string freq_initial = $"f.req={encoded}&";
 
-            //translate
-            var client = new RestClient("https://translate.google.es");
-            client.UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36(KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36";
-            var request = new RestRequest("/_/TranslateWebserverUi/data/batchexecute", Method.POST);
-            request.AddHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-            request.AddHeader("Accept-Encoding", "identity");
-            request.AddHeader("Referer", $"http://translate.google.es/");
+            var client = new RestClient(Constants.Url);
+            client.UserAgent = Constants.UserAgent;
+            var request = new RestRequest(Constants.Resource, Method.POST);
+            request.AddHeader("Content-Type", Constants.ContentType);
+            request.AddHeader("Accept-Encoding", Constants.Encoding);
+            request.AddHeader("Referer", Constants.Url);
             request.AddParameter("f.req", freq_initial, ParameterType.RequestBody);
             IRestResponse response = await client.ExecuteAsync(request);
 
