@@ -27,11 +27,6 @@ export default {
         disabled: Boolean,
         color: String
     },
-    // computed: {
-    //     text() {
-    //         this.$emit('childToParent', this.text)
-    //     }
-    // }
     methods: {
         emitToParent (event) {
             this.$emit('input', this.text)

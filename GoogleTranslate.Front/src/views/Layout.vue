@@ -55,16 +55,6 @@
     created() {
       this.btnText
     },
-    // computed: {
-    //   btnText: {
-    //     get() { return this.$store.state.btnText },
-    //     set() { 
-    //       if(this.$store.state.tgt === this.en) { this.$store.commit('updateBtnText', this.translateText[0]) }
-    //       if(this.$store.state.tgt === this.fr) { this.$store.commit('updateBtnText', this.translateText[1]) }
-    //       if(this.$store.state.tgt === this.de) { this.$store.commit('updateBtnText', this.translateText[2]) }
-    //       }
-    //   }
-    // },
     computed: {
       btnText() {
         if(this.$store.state.tgt === this.en) { return this.btnTextArray[0]}
@@ -73,11 +63,9 @@
         return this.btnTextArray[0]
       },
       getTextSrc() {
-        console.log(this.$store.state.textSrc)
         return this.$store.state.textSrc
       },      
       getTextTgt() {
-        console.log(this.$store.state.textTgt)
         return this.$store.state.textTgt
       }
     },

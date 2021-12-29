@@ -30,28 +30,18 @@ export default new Vuex.Store({
   actions: {
     translate(context){
       let api = this.state.url + '/Translation'
-      // let api = 'https://hookb.in/ggDB003yqaFG7Voo7oLX'
-      try {
-        let json = {
-          source : this.state.src,
-          target : this.state.tgt,
-          text : this.state.textSrc
-        }
-        console.log("json: " + JSON.stringify(json))
-        axios.post(api, json, { headers : { 'Content-Type' : 'application/json'} } )
-        .then( (response) => {
-          console.log(response)
-          context.commit('setTgtText', response.data.translations[0])
-        })
-        .catch( (error) => {
-          console.log(error)
-        })
-        // console.log("result.data: " + response)
-        // context.commit()
+      let json = {
+        source : this.state.src,
+        target : this.state.tgt,
+        text : this.state.textSrc
       }
-      catch(e) {
-        console.log("Error: " + e.message)
-      }
+      axios.post(api, json, { headers : { 'Content-Type' : 'application/json'} } )
+      .then( (response) => {
+        context.commit('setTgtText', response.data.translations[0])
+      })
+      .catch( (error) => {
+        console.log(error)
+      })
     }
   },
   modules: {
