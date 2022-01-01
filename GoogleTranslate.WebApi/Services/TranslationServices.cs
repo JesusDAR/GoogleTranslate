@@ -17,14 +17,15 @@ namespace GoogleTranslate.WebApi.Services
             List<List<object>> parameter = new List<List<object>> { new List<object> { translationRequestDTO.Text, translationRequestDTO.Source, translationRequestDTO.Target, true }, new List<object> { 1 } };
             string escaped_parameter = JsonSerializer.Serialize(parameter);
 
-            List<List<List<string>>> rpc = new List<List<List<string>>> { new List<List<string>> { new List<string> { "MkEWBc", escaped_parameter, null, "generic" } } };
+            List<List<List<object>>> rpc = new List<List<List<object>>> { new List<List<object>> { new List<object> {"MkEWBc",escaped_parameter,null,"generic"} } };
             string espaced_rpc = JsonSerializer.Serialize(rpc);
             string encoded = Uri.EscapeDataString(espaced_rpc);
             string freq_initial = $"f.req={encoded}&";
 
-            var client = new RestClient(Constants.Url);
+            RestClient client = new RestClient(Constants.Url);
+
             client.UserAgent = Constants.UserAgent;
-            var request = new RestRequest(Constants.Resource, Method.POST);
+            RestRequest request = new RestRequest(Constants.Resource, Method.POST);
             request.AddHeader("Content-Type", Constants.ContentType);
             request.AddHeader("Accept-Encoding", Constants.Encoding);
             request.AddHeader("Referer", Constants.Url);
@@ -40,7 +41,7 @@ namespace GoogleTranslate.WebApi.Services
             accessTranslations(access, translations);
             translations = translations.Distinct().ToList();
 
-            TranslationResponseDTO translationResponseDTO = new TranslationResponseDTO
+            TranslationResponseDTO translationResponseDTO = new()
             {
                 Translations = translations
             };
