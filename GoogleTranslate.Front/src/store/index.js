@@ -11,7 +11,7 @@ export default new Vuex.Store({
     textSrc: '',
     textTgt: '',
     url: 'https://localhost:44304/api',
-    url_prod: 'https://localhost:5000/api'
+    url_prod: 'https://localhost:5001/api'
   },
   mutations: {
     setSrc(state, src) {
