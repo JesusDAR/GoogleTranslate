@@ -20,7 +20,20 @@ namespace GoogleTranslate.WebApi.Controllers
         {
             _translationServices = translationServices;
         }
-
+        /// <summary>
+        /// Performs the translation of a given text
+        /// </summary>
+        /// /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /Todo
+        ///     {
+        ///        "source": "en",
+        ///        "target": "de",
+        ///        "text": "Hello World"
+        ///     }
+        ///
+        /// </remarks>
         [HttpPost]
         public async Task<IActionResult> Translate([FromBody] TranslationRequestDTO translationRequestDTO)
         {
