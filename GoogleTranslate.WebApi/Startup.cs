@@ -37,7 +37,9 @@ namespace GoogleTranslate.WebApi
                 options.AddPolicy("CorsPolicy",
                     builder => builder.AllowAnyOrigin()
                     .AllowAnyMethod()
-                    .AllowAnyHeader());
+                    .AllowAnyHeader()
+                    .AllowCredentials().WithOrigins("http://localhost:8080", "http://localhost:8081")
+                    );
             });
 
             services.RegisterServices();
@@ -47,8 +49,6 @@ namespace GoogleTranslate.WebApi
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
             });
-            //services.AddCors();
-            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,9 +70,6 @@ namespace GoogleTranslate.WebApi
             {
                 endpoints.MapControllers();
             });
-            //app.UseCors(
-            //     options => options.WithOrigins("http://localhost:8080").AllowAnyMethod()
-            //);
         }
     }
     public static class ServiceExtensions

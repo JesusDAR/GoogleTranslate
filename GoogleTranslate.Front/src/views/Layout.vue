@@ -79,7 +79,7 @@
     },
     methods: {
       translate() {
-        this.$store.commit('error', '')
+        this.$store.commit('setError', '')
         this.$store.dispatch('translate')
 
       },

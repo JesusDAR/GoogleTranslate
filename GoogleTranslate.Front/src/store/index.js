@@ -10,7 +10,7 @@ export default new Vuex.Store({
     tgt: '',
     textSrc: '',
     textTgt: '',
-    url: 'https://localhost:44304/api',
+    url: 'https://localhost:44034/api',
     error: ''
   },
   mutations: {
