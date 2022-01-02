@@ -11,6 +11,7 @@ export default new Vuex.Store({
     textSrc: '',
     textTgt: '',
     url: 'https://localhost:44304/api',
+    error: ''
   },
   mutations: {
     setSrc(state, src) {
@@ -24,7 +25,10 @@ export default new Vuex.Store({
     },
     setTgtText(state, text) {
       state.textTgt = text
-    },     
+    }, 
+    setError(state, text) {
+      state.error = text
+    },      
   },
 
   actions: {
@@ -38,9 +42,11 @@ export default new Vuex.Store({
       axios.post(api, json, { headers : { 'Content-Type' : 'application/json'} } )
       .then( (response) => {
         context.commit('setTgtText', response.data.translations[0])
+        if (response.data.error.message !== null)
+          context.commit('setError', response.data.error.message)
       })
       .catch( (error) => {
-        console.log(error)
+        context.commit('setError', error.message)
       })
     }
   },

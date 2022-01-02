@@ -27,6 +27,11 @@
               <layout-button @click.native="translate" color="primary" :text="btnText" :disabled="$store.state.src === '' || $store.state.tgt === ''"/>
             </v-col>
           </v-row>
+          <v-row v-if="getError !== ''" class="text-center">
+            <v-col cols="12">
+              <span class="red--text">{{ getError }}</span>
+            </v-col>
+          </v-row>
         </v-col>
     </v-row>
   </v-container>
@@ -67,11 +72,16 @@
       },      
       getTextTgt() {
         return this.$store.state.textTgt
-      }
+      },
+      getError() {
+        return this.$store.state.error;
+      }      
     },
     methods: {
       translate() {
+        this.$store.commit('error', '')
         this.$store.dispatch('translate')
+
       },
       setSrc(src) {
         this.$store.commit('setSrc',src)

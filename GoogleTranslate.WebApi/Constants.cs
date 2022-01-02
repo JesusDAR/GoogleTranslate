@@ -13,6 +13,5 @@ namespace GoogleTranslate.WebApi
         public static string ContentType = "application/x-www-form-urlencoded;charset=utf-8";
         public static string Encoding = "identity";
         
-
     }
 }
