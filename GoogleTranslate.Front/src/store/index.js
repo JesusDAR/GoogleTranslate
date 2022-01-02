@@ -11,7 +11,6 @@ export default new Vuex.Store({
     textSrc: '',
     textTgt: '',
     url: 'https://localhost:44304/api',
-    // url_prod: 'http://localhost:5000/api'
   },
   mutations: {
     setSrc(state, src) {
@@ -30,14 +29,7 @@ export default new Vuex.Store({
 
   actions: {
     translate(context){
-      let api = ''
-      // if (process.env.NODE_ENV === 'development'){
-      //   api = this.state.url_prod + '/Translation'
-      // }
-      // else{
-        api = this.state.url + '/Translation'
-      // }
-      
+      let api = this.state.url + '/Translation'
       let json = {
         source : this.state.src,
         target : this.state.tgt,
