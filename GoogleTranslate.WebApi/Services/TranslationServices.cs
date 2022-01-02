@@ -14,6 +14,11 @@ namespace GoogleTranslate.WebApi.Services
     {
         public async Task<TranslationResponseDTO> Translate(TranslationRequestDTO translationRequestDTO)
         {
+            TranslationResponseDTO translationResponseDTO = new() 
+            { 
+                Translations = new List<string>(),
+                Error = new ErrorDTO()
+            };
             List<List<object>> parameter = new List<List<object>> { new List<object> { translationRequestDTO.Text, translationRequestDTO.Source, translationRequestDTO.Target, true }, new List<object> { 1 } };
             string escaped_parameter = JsonSerializer.Serialize(parameter);
 
@@ -23,28 +28,36 @@ namespace GoogleTranslate.WebApi.Services
             string freq_initial = $"f.req={encoded}&";
 
             RestClient client = new RestClient(Constants.Url);
-
+            //client.Proxy = new WebProxy("111.68.26.237", 8080);
+            //client.Proxy.Credentials = CredentialCache.DefaultCredentials;
+            //client.Timeout = 50000;
+            
             client.UserAgent = Constants.UserAgent;
             RestRequest request = new RestRequest(Constants.Resource, Method.POST);
             request.AddHeader("Content-Type", Constants.ContentType);
             request.AddHeader("Accept-Encoding", Constants.Encoding);
             request.AddHeader("Referer", Constants.Url);
             request.AddParameter("f.req", freq_initial, ParameterType.RequestBody);
-            IRestResponse response = await client.ExecuteAsync(request);
 
-            string content = response.Content;
+            
             List<string> translations = new List<string>();
-            string access = JsonSerializer.Deserialize<List<object>>(
-                                JsonSerializer.Deserialize<List<object>>(
-                                    JsonSerializer.Deserialize<List<List<object>>>(
-                                        content.Remove(0, 4).Replace("\n", ""))[0][2].ToString())[1].ToString())[0].ToString();
-            accessTranslations(access, translations);
-            translations = translations.Distinct().ToList();
-
-            TranslationResponseDTO translationResponseDTO = new()
+            IRestResponse response = await client.ExecuteAsync(request);
+            try
             {
-                Translations = translations
-            };
+                string content = response.Content;
+                string access = JsonSerializer.Deserialize<List<object>>(
+                            JsonSerializer.Deserialize<List<object>>(
+                                JsonSerializer.Deserialize<List<List<object>>>(
+                                    content.Remove(0, 4).Replace("\n", ""))[0][2].ToString())[1].ToString())[0].ToString();
+                accessTranslations(access, translations);
+                translations = translations.Distinct().ToList();
+            }
+            catch (Exception e)
+            {
+                translationResponseDTO.Error.Code = response.StatusCode;
+                translationResponseDTO.Error.Message = response.ErrorMessage + " - " + e.Message;
+            }
+            translationResponseDTO.Translations = translations;
             return translationResponseDTO;
     }
 

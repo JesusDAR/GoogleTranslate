@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace GoogleTranslate.WebApi.DTOs
 {
-    public class TranslationResponseDTO
+    public class ErrorDTO
     {
-        public List<string> Translations  { get; set; }
-        public ErrorDTO Error { get; set; }
+        public HttpStatusCode Code { get; set; }
+        public string Message { get; set; }
     }
 }
